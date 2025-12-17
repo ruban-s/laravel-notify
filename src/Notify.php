@@ -129,7 +129,7 @@ final class Notify
             'model' => $this->model,
             'title' => $title,
             'duration' => $duration,
-            'actions' => array_map(fn (NotifyAction $action) => $action->toArray(), $this->actions),
+            'actions' => array_map(fn (NotifyAction $action): array => $action->toArray(), $this->actions),
         ]);
 
         $this->reset();
@@ -147,6 +147,21 @@ final class Notify
             if (filled($this->message)) {
                 throw new InvalidNotificationException(
                     'The Drake notification cannot have a message. Remove ->message() call.'
+                );
+            }
+
+            if (filled($this->actions)) {
+                throw new InvalidNotificationException(
+                    'The Drake notification cannot have actions. Remove ->actions() call.'
+                );
+            }
+        }
+
+        // Validate that all actions have labels
+        foreach ($this->actions as $action) {
+            if (blank($action->getLabel())) {
+                throw new InvalidNotificationException(
+                    'All notification actions must have a label. Use ->label() method on NotifyAction.'
                 );
             }
         }
