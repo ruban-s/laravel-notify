@@ -1,23 +1,22 @@
-<div id="laravel-notify">
-    @if (session()->has('notify.message'))
+@if (session()->has('notify'))
+    @php
+        $notificationModel = session()->get('notify.model');
+    @endphp
 
-        @include('notify::notifications.toast')
-
-        @include('notify::notifications.smiley')
-
-        @include('notify::notifications.drakify')
-
-        @include('notify::notifications.connectify')
-
-        @include('notify::notifications.emotify')
-
+    @if ($notificationModel)
+        @include($notificationModel->getViewName())
     @endif
 
-    {{ session()->forget('notify.message') }}
-
     <script>
-        var notify = {
+        const notification = document.querySelector('div.notify');
+        const notify = {
             timeout: "{{ config('notify.timeout') }}",
         }
+
+        if (notification) {
+            setTimeout(() => {
+                notification.remove();
+            }, notify.timeout);
+        }
     </script>
-</div>
+@endif

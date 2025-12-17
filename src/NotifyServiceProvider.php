@@ -1,41 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mckenziearts\Notify;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-final class LaravelNotifyServiceProvider extends ServiceProvider
+final class NotifyServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->registerBladeDirective();
-        $this->registerPublishables();
+        $this->bootPublishes();
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'notify');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'notify');
     }
 
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/notify.php', 'notify');
 
-        $this->app->singleton('notify', function ($app) {
-            return $app->make(LaravelNotify::class);
-        });
+        $this->app->singleton('notify', fn (Application $app) => $app->make(Notify::class));
     }
 
     public function registerBladeDirective(): void
     {
-        Blade::directive('notifyCss', function () {
-            return '<?php echo notifyCss(); ?>';
-        });
+        Blade::directive('notifyCss', fn (): string => '<?php echo notifyCss(); ?>');
 
-        Blade::directive('notifyJs', function () {
-            return '<?php echo notifyJs(); ?>';
-        });
+        Blade::directive('notifyJs', fn (): string => '<?php echo notifyJs(); ?>');
     }
 
-    public function registerPublishables(): void
+    public function bootPublishes(): void
     {
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/mckenziearts/laravel-notify'),
@@ -44,5 +42,9 @@ final class LaravelNotifyServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/notify.php' => config_path('notify.php'),
         ], 'notify-config');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => lang_path('vendor/notify'),
+        ], 'notify-lang');
     }
 }

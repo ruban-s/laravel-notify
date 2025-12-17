@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+use Mckenziearts\Notify\Enums\NotificationType;
+use Mckenziearts\Notify\Enums\NotificationModel;
+
 return [
 
     /*
@@ -37,25 +42,17 @@ return [
     */
 
     'preset-messages' => [
-        'user-updated' => [
-            'message' => 'The user has been updated successfully.',
-            'type' => 'success',
-            'model' => 'connect',
-            'title' => 'User Updated',
-            'timeout' => 5000, // Specific timeout for this message
+        'success' => [
+            'type' => NotificationType::Success,
+            'model' => NotificationModel::Toast,
+            'title' => 'Success',
+            'message' => 'The action has been successfully.',
         ],
-        'user-deleted' => [
-            'message' => 'The user has been deleted successfully.',
-            'type' => 'error',
-            'model' => 'toast',
-            'title' => 'User Deleted',
-            'timeout' => 3000, // Shorter timeout for error messages
-        ],
-        'info-message' => [
-            'message' => 'This is an informational message.',
-            'type' => 'info',
-            'model' => 'drake',
-            'title' => 'Information',
+        'error' => [
+            'type' => NotificationType::Error,
+            'model' => NotificationModel::Toast,
+            'title' => 'Error',
+            'message' => 'An error occurred.',
         ],
     ],
 
@@ -69,21 +66,6 @@ return [
     |
     */
 
-    'sound' => env('NOTIFY_SOUND', true), // Default to true
-
-    /*
-    |--------------------------------------------------------------------------
-    | Localization Support
-    |--------------------------------------------------------------------------
-    |
-    | Enable localization support for notifications.
-    | Specify the default language for messages.
-    |
-    */
-
-    'localization' => [
-        'default' => env('NOTIFY_LANGUAGE', 'en'),
-        'supported' => ['en', 'tr', 'fr', 'es'], // Add more languages as needed
-    ],
+    'sound' => env('NOTIFY_SOUND', true),
 
 ];

@@ -1,19 +1,19 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
-    "development": "mix",
-    "watch": "mix watch",
-    "watch-poll": "mix watch -- --watch-options-poll=1000",
-    "hot": "mix watch --hot",
-    "production": "mix --production"
-  },
-  "dependencies": {
-    "alpinejs": "^3.12.0"
+    "dev:js": "node bin/build.js --dev",
+    "dev:css": "npx @tailwindcss/cli -i ./resources/css/notify.css -o ./public/dist/notify.css --watch",
+    "build:js": "node bin/build.js",
+    "build:css": "npx @tailwindcss/cli -i ./resources/css/notify.css -o ./public/dist/notify.css --minify",
+    "dev": "npm-run-all --parallel dev:*",
+    "build": "npm-run-all build:*"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.14",
-    "laravel-mix": "^6.0.49",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7"
+    "@tailwindcss/cli": "^4.1.10",
+    "alpinejs": "^3.12.0",
+    "esbuild": "^0.25.0",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^4.1.18"
   }
 }

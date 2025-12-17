@@ -6,4 +6,4 @@ namespace Mckenziearts\Notify\Exceptions;
 
 use Exception;
 
-final class MissingPresetNotificationException extends Exception {}
+final class InvalidNotificationException extends Exception {}

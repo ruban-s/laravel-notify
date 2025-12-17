@@ -1,0 +1,190 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Mckenziearts\Notify;
+
+use Exception;
+use Illuminate\Session\Store;
+use Mckenziearts\Notify\Enums\NotificationModel;
+use Mckenziearts\Notify\Enums\NotificationType;
+use Mckenziearts\Notify\Exceptions\InvalidNotificationException;
+use Mckenziearts\Notify\Exceptions\MissingPresetNotificationException;
+
+final class Notify
+{
+    private ?NotificationType $type = null;
+
+    private ?string $message = null;
+
+    private ?string $title = null;
+
+    private ?string $icon = null;
+
+    private NotificationModel $model = NotificationModel::Toast;
+
+    public function __construct(
+        private readonly Store $session
+    ) {}
+
+    public function success(): self
+    {
+        $this->type = NotificationType::Success;
+
+        return $this;
+    }
+
+    public function error(): self
+    {
+        $this->type = NotificationType::Error;
+
+        return $this;
+    }
+
+    public function warning(): self
+    {
+        $this->type = NotificationType::Warning;
+
+        return $this;
+    }
+
+    public function info(): self
+    {
+        $this->type = NotificationType::Info;
+
+        return $this;
+    }
+
+    public function model(NotificationModel $model): self
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    public function message(string $message): self
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    public function title(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function icon(string $icon): self
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Send the notification to the session
+     *
+     * @throws InvalidNotificationException
+     */
+    public function send(): void
+    {
+        $this->validate();
+
+        $type = $this->type ?? NotificationType::Info;
+        $icon = $this->icon ?? $type->getDefaultIcon($this->model);
+
+        $title = $this->model === NotificationModel::Drake ? null : ($this->title ?? $type->getDefaultTitle());
+
+        $this->session->flash('notify', [
+            'message' => $this->message,
+            'type' => $type,
+            'icon' => $icon,
+            'model' => $this->model,
+            'title' => $title,
+        ]);
+
+        $this->reset();
+    }
+
+    private function validate(): void
+    {
+        if ($this->model === NotificationModel::Drake) {
+            if (! empty($this->title)) {
+                throw new InvalidNotificationException(
+                    "The Drake notification cannot have a title. Remove ->title() call."
+                );
+            }
+
+            if (! empty($this->message)) {
+                throw new InvalidNotificationException(
+                    "The Drake notification cannot have a message. Remove ->message() call."
+                );
+            }
+        }
+    }
+
+    /**
+     * Return a preset message that is defined in the config file
+     *
+     * @param  array<string, mixed>  $overrideValues
+     * @throws Exception
+     */
+    public function preset(string $presetName, array $overrideValues = []): self
+    {
+        /** @var array<string, mixed>|null $presetValues */
+        $presetValues = config('notify.preset-messages.'.$presetName);
+
+        if (! $presetValues) {
+            throw new MissingPresetNotificationException('A preset message does not exist with the name: '.$presetName);
+        }
+
+        if (isset($overrideValues['message']) || isset($presetValues['message'])) {
+            $this->message($overrideValues['message'] ?? $presetValues['message']);
+        }
+
+        if (isset($overrideValues['title']) || isset($presetValues['title'])) {
+            $this->title($overrideValues['title'] ?? $presetValues['title']);
+        }
+
+        if (isset($overrideValues['icon']) || isset($presetValues['icon'])) {
+            $this->icon($overrideValues['icon'] ?? $presetValues['icon']);
+        }
+
+        if (isset($overrideValues['type']) || isset($presetValues['type'])) {
+            $typeValue = $overrideValues['type'] ?? $presetValues['type'];
+            $this->type = $typeValue instanceof NotificationType
+                ? $typeValue
+                : NotificationType::from($typeValue);
+        }
+
+        if (isset($overrideValues['model']) || isset($presetValues['model'])) {
+            $modelValue = $overrideValues['model'] ?? $presetValues['model'];
+            $this->model = $modelValue instanceof NotificationModel
+                ? $modelValue
+                : NotificationModel::from($modelValue);
+        }
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->session->get('notify.message');
+    }
+
+    public function getType(): ?NotificationType
+    {
+        return $this->session->get('notify.type');
+    }
+
+    private function reset(): void
+    {
+        $this->type = null;
+        $this->message = null;
+        $this->title = null;
+        $this->icon = null;
+        $this->model = NotificationModel::Toast;
+    }
+}
