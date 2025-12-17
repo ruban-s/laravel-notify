@@ -6,6 +6,7 @@ namespace Mckenziearts\Notify;
 
 use Exception;
 use Illuminate\Session\Store;
+use Mckenziearts\Notify\Action\NotifyAction;
 use Mckenziearts\Notify\Enums\NotificationModel;
 use Mckenziearts\Notify\Enums\NotificationType;
 use Mckenziearts\Notify\Exceptions\InvalidNotificationException;
@@ -22,6 +23,13 @@ final class Notify
     private ?string $icon = null;
 
     private NotificationModel $model = NotificationModel::Toast;
+
+    private ?int $duration = null;
+
+    /**
+     * @var array<NotifyAction>
+     */
+    private array $actions = [];
 
     public function __construct(
         private readonly Store $session
@@ -83,6 +91,23 @@ final class Notify
         return $this;
     }
 
+    public function duration(int $duration): self
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<int, NotifyAction>  $actions
+     */
+    public function actions(array $actions): self
+    {
+        $this->actions = $actions;
+
+        return $this;
+    }
+
     /**
      * Send the notification to the session
      *
@@ -94,8 +119,8 @@ final class Notify
 
         $type = $this->type ?? NotificationType::Info;
         $icon = $this->icon ?? $type->getDefaultIcon($this->model);
-
         $title = $this->model === NotificationModel::Drake ? null : ($this->title ?? $type->getDefaultTitle());
+        $duration = $this->duration ?? config('notify.timeout', 5000);
 
         $this->session->flash('notify', [
             'message' => $this->message,
@@ -103,6 +128,8 @@ final class Notify
             'icon' => $icon,
             'model' => $this->model,
             'title' => $title,
+            'duration' => $duration,
+            'actions' => array_map(fn (NotifyAction $action) => $action->toArray(), $this->actions),
         ]);
 
         $this->reset();
@@ -111,15 +138,15 @@ final class Notify
     private function validate(): void
     {
         if ($this->model === NotificationModel::Drake) {
-            if (! empty($this->title)) {
+            if (filled($this->title)) {
                 throw new InvalidNotificationException(
-                    "The Drake notification cannot have a title. Remove ->title() call."
+                    'The Drake notification cannot have a title. Remove ->title() call.'
                 );
             }
 
-            if (! empty($this->message)) {
+            if (filled($this->message)) {
                 throw new InvalidNotificationException(
-                    "The Drake notification cannot have a message. Remove ->message() call."
+                    'The Drake notification cannot have a message. Remove ->message() call.'
                 );
             }
         }
@@ -129,6 +156,7 @@ final class Notify
      * Return a preset message that is defined in the config file
      *
      * @param  array<string, mixed>  $overrideValues
+     *
      * @throws Exception
      */
     public function preset(string $presetName, array $overrideValues = []): self
@@ -141,18 +169,25 @@ final class Notify
         }
 
         if (isset($overrideValues['message']) || isset($presetValues['message'])) {
-            $this->message($overrideValues['message'] ?? $presetValues['message']);
+            /** @var string $message */
+            $message = $overrideValues['message'] ?? $presetValues['message'];
+            $this->message($message);
         }
 
         if (isset($overrideValues['title']) || isset($presetValues['title'])) {
-            $this->title($overrideValues['title'] ?? $presetValues['title']);
+            /** @var string $title */
+            $title = $overrideValues['title'] ?? $presetValues['title'];
+            $this->title($title);
         }
 
         if (isset($overrideValues['icon']) || isset($presetValues['icon'])) {
-            $this->icon($overrideValues['icon'] ?? $presetValues['icon']);
+            /** @var string $icon */
+            $icon = $overrideValues['icon'] ?? $presetValues['icon'];
+            $this->icon($icon);
         }
 
         if (isset($overrideValues['type']) || isset($presetValues['type'])) {
+            /** @var NotificationType|string $typeValue */
             $typeValue = $overrideValues['type'] ?? $presetValues['type'];
             $this->type = $typeValue instanceof NotificationType
                 ? $typeValue
@@ -160,10 +195,17 @@ final class Notify
         }
 
         if (isset($overrideValues['model']) || isset($presetValues['model'])) {
+            /** @var NotificationModel|string $modelValue */
             $modelValue = $overrideValues['model'] ?? $presetValues['model'];
             $this->model = $modelValue instanceof NotificationModel
                 ? $modelValue
                 : NotificationModel::from($modelValue);
+        }
+
+        if (isset($overrideValues['duration']) || isset($presetValues['duration'])) {
+            /** @var int $duration */
+            $duration = $overrideValues['duration'] ?? $presetValues['duration'];
+            $this->duration($duration);
         }
 
         return $this;
@@ -171,12 +213,12 @@ final class Notify
 
     public function getMessage(): ?string
     {
-        return $this->session->get('notify.message');
+        return $this->session->get('notify.message'); // @phpstan-ignore-line return.type
     }
 
     public function getType(): ?NotificationType
     {
-        return $this->session->get('notify.type');
+        return $this->session->get('notify.type'); // @phpstan-ignore-line return.type
     }
 
     private function reset(): void
@@ -186,5 +228,7 @@ final class Notify
         $this->title = null;
         $this->icon = null;
         $this->model = NotificationModel::Toast;
+        $this->duration = null;
+        $this->actions = [];
     }
 }

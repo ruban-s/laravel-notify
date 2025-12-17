@@ -29,13 +29,14 @@ enum NotificationType: string
                 NotificationModel::Smiley => '🙅🏽‍♂',
                 NotificationModel::Drake, NotificationModel::Emotify => null,
             },
-            self::Warning => 'untitledui-alert-triangle',
+            self::Warning => 'untitledui-alert-circle',
             self::Info => 'untitledui-info-circle',
         };
     }
 
     public function getDefaultTitle(): string
     {
+        // @phpstan-ignore-next-line
         return match ($this) {
             self::Success => __('notify::notify.enums.success'),
             self::Error => __('notify::notify.enums.error'),

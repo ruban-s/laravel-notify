@@ -23,7 +23,7 @@ final class NotifyServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/notify.php', 'notify');
 
-        $this->app->singleton('notify', fn (Application $app) => $app->make(Notify::class));
+        $this->app->singleton('notify', fn (Application $app): Notify => $app->make(Notify::class));
     }
 
     public function registerBladeDirective(): void

@@ -2,10 +2,6 @@
     'title',
 ])
 
-<p @class([
-    'text-sm font-medium',
-    'text-zinc-900' => config('notify.theme') === 'light',
-    'text-white' => config('notify.theme') !== 'light',
-])>
+<p class="text-sm font-medium text-zinc-900 dark:text-white">
     {{ $title }}
 </p>

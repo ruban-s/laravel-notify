@@ -6,9 +6,7 @@
 <x-notify::notification-wrapper
     :model="NotificationModel::Toast"
     @class([
-        'border-l-4',
-        'bg-white' => config('notify.theme') === 'light',
-        'bg-zinc-800' => config('notify.theme') !== 'light',
+        'border-l-4 no-to bg-white dark:bg-zinc-800',
         'border-green-500' => session()->get('notify.type') === NotificationType::Success,
         'border-yellow-500' => session()->get('notify.type') === NotificationType::Warning,
         'border-blue-500' => session()->get('notify.type') === NotificationType::Info,
@@ -35,9 +33,11 @@
                 @if (session()->get('notify.message'))
                     <x-notify::content :content="session()->get('notify.message')" />
                 @endif
+
+                <x-notify::actions />
             </div>
             <div class="ml-4 flex shrink-0">
-                <x-notify::button />
+                <x-notify::button x-on:click="show = false;" />
             </div>
         </div>
     </div>

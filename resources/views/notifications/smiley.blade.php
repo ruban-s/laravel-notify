@@ -5,10 +5,7 @@
 
 <x-notify::notification-wrapper
     :model="NotificationModel::Smiley"
-    @class([
-        'bg-white' => config('notify.theme') === 'light',
-        'bg-zinc-800' => config('notify.theme') !== 'light',
-    ])
+    class="no-smi bg-white dark:bg-zinc-800"
 >
     <div class="p-4">
         <div class="flex items-start">
@@ -24,9 +21,11 @@
                 @if (session()->get('notify.message'))
                     <x-notify::content :content="session()->get('notify.message')" />
                 @endif
+
+                <x-notify::actions />
             </div>
             <div class="ml-4 flex shrink-0">
-                <x-notify::button />
+                <x-notify::button x-on:click="show = false;" />
             </div>
         </div>
     </div>

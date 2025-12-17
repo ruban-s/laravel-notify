@@ -17,13 +17,7 @@
             x-data="{ show: true }"
             x-init="setTimeout(() => { show = true }, {{ $timeout }})"
             x-show="show"
-            x-transition:enter="transform ease-out duration-300 transition"
-            x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-            x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0"
-            x-transition:leave="transition ease-in duration-100"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            {{ $attributes->merge(['class' => 'pointer-events-auto max-w-sm w-full shadow-lg outline-1 outline-black/5 transition duration-300 ease-out rounded-lg dark:bg-zinc-800 dark:-outline-offset-1 dark:outline-white/10']) }}
+            {{ $attributes->merge(['class' => 'pointer-events-auto w-full max-w-sm translate-y-0 transform rounded-lg bg-white opacity-100 shadow-lg outline-1 outline-black/5 transition duration-300 ease-out sm:translate-x-0 dark:bg-zinc-800 dark:-outline-offset-1 dark:outline-white/10 starting:translate-y-2 starting:opacity-0 starting:sm:translate-x-2 starting:sm:translate-y-0']) }}
         >
             {{ $slot }}
         </div>

@@ -178,6 +178,154 @@ notify()
     ->send();
 ```
 
+### Setting a duration
+
+By default, notifications are shown for 5 seconds before they're automatically closed. You may customize this using the `duration()` method:
+
+```php
+notify()
+    ->success()
+    ->title('Saved successfully')
+    ->duration(3000) // 3 seconds
+    ->send();
+```
+
+If you'd like to make a notification stay open until the user manually closes it, you can set a very long duration:
+
+```php
+notify()
+    ->warning()
+    ->title('Important notice')
+    ->duration(999999) // ~16 minutes
+    ->send();
+```
+
+You can also configure a default duration for all notifications in the `config/notify.php` file:
+
+```php
+'timeout' => env('NOTIFY_TIMEOUT', 5000),
+```
+
+### Adding Actions to Notifications
+
+You can add interactive actions to your notifications, allowing users to perform tasks directly from the notification. Actions support both navigation (redirecting to a URL) and execution (calling a controller action).
+
+**Note:** Actions are supported only for the following notification models: `Toast`, `Connect`, `Smiley`, and `Emotify`. The `Drake` model does not support actions.
+
+#### Basic Usage
+
+```php
+use Mckenziearts\Notify\Action\NotifyAction;
+
+notify()
+    ->success()
+    ->title('User deleted successfully')
+    ->actions([
+        NotifyAction::make()
+            ->label('Undo')
+            ->action(route('users.restore', $user->id)),
+        NotifyAction::make()
+            ->label('View All')
+            ->url(route('users.index')),
+    ])
+    ->send();
+```
+
+#### URL Actions (Navigation)
+
+Use the `url()` method to redirect users to another page. This creates a simple link (GET request):
+
+```php
+NotifyAction::make()
+    ->label('View details')
+    ->url(route('users.show', $user->id));
+```
+
+You can open URLs in a new tab using the `openUrlInNewTab()` method:
+
+```php
+NotifyAction::make()
+    ->label('Read documentation')
+    ->url('https://laravel.com/docs')
+    ->openUrlInNewTab();
+```
+
+#### Action Actions (Execution)
+
+Use the `action()` method to execute a controller action. This sends an HTTP request (POST by default) to your controller:
+
+```php
+NotifyAction::make()
+    ->label('Restore')
+    ->action(route('users.restore', $user->id));
+```
+
+You can specify the HTTP method using the `method()` method:
+
+```php
+// DELETE request
+NotifyAction::make()
+    ->label('Delete permanently')
+    ->action(route('users.force-delete', $user->id))
+    ->method('DELETE');
+
+// PUT request
+NotifyAction::make()
+    ->label('Update status')
+    ->action(route('users.activate', $user->id))
+    ->method('PUT');
+```
+
+If you don't specify a method, it defaults to `POST`.
+
+#### Complete Example
+
+```php
+public function destroy(User $user)
+{
+    $user->delete();
+
+    notify()
+        ->success()
+        ->title('User deleted')
+        ->message('The user has been moved to trash')
+        ->actions([
+            NotifyAction::make()
+                ->label('Undo')
+                ->action(route('users.restore', $user->id))
+                ->method('POST'),
+            NotifyAction::make()
+                ->label('View Trash')
+                ->url(route('users.trash'))
+                ->openUrlInNewTab(),
+        ])
+        ->send();
+
+    return redirect()->route('users.index');
+}
+```
+
+#### Custom Styling
+
+You can customize the appearance of action buttons using the `classes()` method:
+
+```php
+NotifyAction::make()
+    ->label('Delete')
+    ->action(route('users.delete', $user->id))
+    ->method('DELETE')
+    ->classes('text-red-600 hover:text-red-500 font-bold');
+```
+
+#### Important Notes
+
+- **Mutual Exclusivity**: You cannot use both `action()` and `url()` on the same action. Choose one or the other.
+- **Method Restriction**: The `method()` function can only be used with `action()`. Using it with `url()` will throw an exception.
+- **New Tab Restriction**: The `openUrlInNewTab()` function can only be used with `url()`. Using it with `action()` will throw an exception.
+- **Auto-close**: When an action is executed successfully, the notification automatically closes.
+- **CSRF Protection**: Action requests automatically include CSRF tokens and proper headers.
+- **Supported Models**: Actions work with `Toast`, `Connect`, `Smiley`, and `Emotify` notification models only.
+
 #### Preset Notifications
 
 If you have a specific notification that is used across multiple different places in your system, you can define it
@@ -205,13 +353,7 @@ notify()->preset('common-notification', ['title' => 'This is the overridden titl
 
 ## Config
 
-Config file are located at `config/notify.php` after publishing provider element.
-Some awesome stuff. To active `dark mode` update the `theme` config, or add global variable `NOTIFY_THEME` on your .env file
-
-```php
-'theme' => env('NOTIFY_THEME', 'dark'),
-```
-
+Config file are located at `config/notify.php` after publishing NotifyServiceProvider.
 You can define preset notifications in the config file using the following structure:
 
 ```php

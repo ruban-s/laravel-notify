@@ -10,7 +10,7 @@
     <script>
         const notification = document.querySelector('div.notify');
         const notify = {
-            timeout: "{{ config('notify.timeout') }}",
+            timeout: {{ session()->get('notify.duration', config('notify.timeout', 5000)) }},
         }
 
         if (notification) {

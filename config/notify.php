@@ -2,22 +2,10 @@
 
 declare(strict_types=1);
 
-use Mckenziearts\Notify\Enums\NotificationType;
 use Mckenziearts\Notify\Enums\NotificationModel;
+use Mckenziearts\Notify\Enums\NotificationType;
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Notify Theme
-    |--------------------------------------------------------------------------
-    |
-    | You can change the theme of notifications by specifying the desired theme.
-    | Default themes available: light, dark, colorful, minimal.
-    |
-    */
-
-    'theme' => env('NOTIFY_THEME', 'light'),
 
     /*
     |--------------------------------------------------------------------------
@@ -47,25 +35,15 @@ return [
             'model' => NotificationModel::Toast,
             'title' => 'Success',
             'message' => 'The action has been successfully.',
+            'duration' => 3000,
         ],
         'error' => [
             'type' => NotificationType::Error,
             'model' => NotificationModel::Toast,
             'title' => 'Error',
             'message' => 'An error occurred.',
+            'duration' => 5000,
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Sound Notifications
-    |--------------------------------------------------------------------------
-    |
-    | Define whether to enable sound notifications for alerts.
-    | This can enhance user experience by providing audible alerts.
-    |
-    */
-
-    'sound' => env('NOTIFY_SOUND', true),
 
 ];

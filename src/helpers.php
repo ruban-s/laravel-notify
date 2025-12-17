@@ -7,7 +7,10 @@ use Mckenziearts\Notify\Notify;
 if (! function_exists('notify')) {
     function notify(): Notify
     {
-        return app('notify');
+        /** @var Notify $notify */
+        $notify = app('notify');
+
+        return $notify;
     }
 }
 

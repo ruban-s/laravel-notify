@@ -6,6 +6,7 @@
 <x-notify::notification-wrapper
     :model="NotificationModel::Emotify"
     @class([
+        'no-emo',
         'bg-linear-to-r from-teal-500 via-green-500 to-green-800' => session()->get('notify.type') === NotificationType::Success,
         'bg-linear-to-r from-orange-500 via-red-500 to-red-800' => session()->get('notify.type') === NotificationType::Error
     ])
@@ -54,9 +55,11 @@
                         {{ session()->get('notify.message') }}
                     </p>
                 @endif
+
+                <x-notify::actions class="mt-3 flex gap-6 [&_a]:text-white [&_a:hover]:text-zinc-200" />
             </div>
             <div class="ml-4 shrink-0 flex">
-                <x-notify::button />
+                <x-notify::button x-on:click="show = false;" class="text-white! hover:text-zinc-200!" />
             </div>
         </div>
     </div>
