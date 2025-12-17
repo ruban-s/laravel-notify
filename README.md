@@ -1,27 +1,18 @@
-<p align="center"><img src="https://laravel.cm/images/laravel-notify.svg"></p>
+<p>
+    <img src="art/notify-banner.png" alt="Laravel Notify Banner" />
+</p>
 
-<p align="center">
-    <a href="https://packagist.org/packages/mckenziearts/laravel-notify"><img src="https://poser.pugx.org/mckenziearts/laravel-notify/d/total.svg" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/mckenziearts/laravel-notify"><img src="https://poser.pugx.org/mckenziearts/laravel-notify/v/stable.svg" alt="Latest Stable Version"></a>
-    <a href="https://packagist.org/packages/mckenziearts/laravel-notify"><img src="https://poser.pugx.org/mckenziearts/laravel-notify/license.svg" alt="License"></a>
+<p>
+    <a href="https://github.com/mckenziearts/laravel-notify/actions"><img src="https://github.com/mckenziearts/laravel-notify/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/mckenziearts/laravel-notify/actions/workflows/quality.yml"><img src="https://github.com/mckenziearts/laravel-notify/actions/workflows/quality.yml/badge.svg" alt="Coding Standards" /></a>
+    <a href="https://packagist.org/packages/mckenziearts/laravel-notify"><img src="https://img.shields.io/packagist/dt/mckenziearts/laravel-notify" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/mckenziearts/laravel-notify"><img src="https://img.shields.io/packagist/v/mckenziearts/laravel-notify" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/mckenziearts/laravel-notify"><img src="https://img.shields.io/packagist/l/mckenziearts/laravel-notify" alt="License"></a>
 </p>
 
 ## Introduction
 
-Laravel Notify is a package that lets you add custom notifications to your project.
-A diverse range of notification design is available.
-
-<p align="center">
-    <img src="https://i.imgur.com/mZVVn3L.png">
-</p>
-
-## Android Version
-
-If you need Android version please try this package [Aesthetic Dialogs](https://github.com/gabriel-TheCode/AestheticDialogs). Happy Coding 👨🏾‍💻
-
-## :film_strip: Video Tutorial 
-
- [<img src="https://img.youtube.com/vi/Kq5VXLex7DU/0.jpg" width="250">](https://youtu.be/Kq5VXLex7DU)
+Laravel Notify is a lightweight Laravel package for displaying backend-driven notifications in your application.
  
 ## Installation
 
