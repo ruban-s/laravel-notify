@@ -24,7 +24,7 @@ afterEach(function (): void {
 it('can emit a notification and store it in session', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['type'] === NotificationType::Success
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['type'] === NotificationType::Success
             && $data['title'] === 'Success'
             && $data['model'] === NotificationModel::Toast));
 
@@ -37,7 +37,7 @@ it('can emit a notification and store it in session', function (): void {
 it('can send notification with message', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['message'] === 'Operation completed successfully'));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['message'] === 'Operation completed successfully'));
 
     $this->notify
         ->success()
@@ -49,7 +49,7 @@ it('can send notification with message', function (): void {
 it('can create success notification', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['type'] === NotificationType::Success));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['type'] === NotificationType::Success));
 
     $this->notify->success()->send();
 });
@@ -57,7 +57,7 @@ it('can create success notification', function (): void {
 it('can create error notification', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['type'] === NotificationType::Error));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['type'] === NotificationType::Error));
 
     $this->notify->error()->send();
 });
@@ -65,7 +65,7 @@ it('can create error notification', function (): void {
 it('can create warning notification', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['type'] === NotificationType::Warning));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['type'] === NotificationType::Warning));
 
     $this->notify->warning()->send();
 });
@@ -73,7 +73,7 @@ it('can create warning notification', function (): void {
 it('can create info notification', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['type'] === NotificationType::Info));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['type'] === NotificationType::Info));
 
     $this->notify->info()->send();
 });
@@ -81,7 +81,7 @@ it('can create info notification', function (): void {
 it('defaults to info type when no type is specified', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['type'] === NotificationType::Info));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['type'] === NotificationType::Info));
 
     $this->notify->send();
 });
@@ -89,7 +89,7 @@ it('defaults to info type when no type is specified', function (): void {
 it('defaults to toast model', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['model'] === NotificationModel::Toast));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['model'] === NotificationModel::Toast));
 
     $this->notify->success()->send();
 });
@@ -97,7 +97,7 @@ it('defaults to toast model', function (): void {
 it('can use connect model', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['model'] === NotificationModel::Connect));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['model'] === NotificationModel::Connect));
 
     $this->notify
         ->model(NotificationModel::Connect)
@@ -108,7 +108,7 @@ it('can use connect model', function (): void {
 it('can use drake model', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['model'] === NotificationModel::Drake));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['model'] === NotificationModel::Drake));
 
     $this->notify
         ->model(NotificationModel::Drake)
@@ -119,7 +119,7 @@ it('can use drake model', function (): void {
 it('can use smiley model', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['model'] === NotificationModel::Smiley));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['model'] === NotificationModel::Smiley));
 
     $this->notify
         ->model(NotificationModel::Smiley)
@@ -130,7 +130,7 @@ it('can use smiley model', function (): void {
 it('can use emotify model', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['model'] === NotificationModel::Emotify));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['model'] === NotificationModel::Emotify));
 
     $this->notify
         ->model(NotificationModel::Emotify)
@@ -141,7 +141,7 @@ it('can use emotify model', function (): void {
 it('can set custom icon', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['icon'] === 'user'));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['icon'] === 'user'));
 
     $this->notify
         ->success()
@@ -152,7 +152,7 @@ it('can set custom icon', function (): void {
 it('uses default icon when not specified', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['icon'] !== null));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['icon'] !== null));
 
     $this->notify->success()->send();
 });
@@ -160,7 +160,7 @@ it('uses default icon when not specified', function (): void {
 it('can set custom duration', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['duration'] === 3000));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['duration'] === 3000));
 
     $this->notify
         ->success()
@@ -173,7 +173,7 @@ it('uses default duration from config when not specified', function (): void {
 
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['duration'] === 5000));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['duration'] === 5000));
 
     $this->notify->success()->send();
 });
@@ -197,7 +197,7 @@ it('throws exception when drake model has message', function (): void {
 it('allows drake model without title and message', function (): void {
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['model'] === NotificationModel::Drake
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['model'] === NotificationModel::Drake
             && $data['title'] === null
             && $data['message'] === null));
 
@@ -231,7 +231,7 @@ it('can load preset notification', function (): void {
 
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['type'] === NotificationType::Success
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['type'] === NotificationType::Success
             && $data['model'] === NotificationModel::Toast
             && $data['title'] === 'User Created'
             && $data['message'] === 'The user was created successfully'));
@@ -249,7 +249,7 @@ it('can override preset values', function (): void {
 
     $this->session->shouldReceive('flash')
         ->once()
-        ->with('notify', Mockery::on(fn(array $data): bool => $data['title'] === 'Custom Title'));
+        ->with('notify', Mockery::on(fn (array $data): bool => $data['title'] === 'Custom Title'));
 
     $this->notify
         ->preset('user-created', ['title' => 'Custom Title'])
