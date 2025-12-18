@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-notify` will be documented in this file.
 
+## v3.1 - 2025-12-18
+
+### What's Changed
+
+* feat: Add RTL support and Tailwind class prefixing by @mckenziearts in https://github.com/mckenziearts/laravel-notify/pull/140
+
+**Full Changelog**: https://github.com/mckenziearts/laravel-notify/compare/v3.0...v3.1
+
 ## v3.0 - 2025-12-17
 
 ### What's Changed
@@ -53,6 +61,7 @@ If you are using Laravel 7 you can now add this on your master blade
 
 ```html
  <x:notify-messages />
+
 
 ```
 ### Updated
