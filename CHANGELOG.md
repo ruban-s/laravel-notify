@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-notify` will be documented in this file.
 
+## v3.1.1 - 2025-12-26
+
+### What's Changed
+
+* style: add z-index to notification wrapper by @mckenziearts in https://github.com/mckenziearts/laravel-notify/pull/142
+
+**Full Changelog**: https://github.com/mckenziearts/laravel-notify/compare/v3.1...v3.1.1
+
 ## v3.1 - 2025-12-18
 
 ### What's Changed
@@ -61,6 +69,7 @@ If you are using Laravel 7 you can now add this on your master blade
 
 ```html
  <x:notify-messages />
+
 
 
 ```
