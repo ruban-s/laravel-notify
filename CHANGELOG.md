@@ -2,6 +2,29 @@
 
 All notable changes to `laravel-notify` will be documented in this file.
 
+## v3.2.0 - 2026-03-03
+
+### What's Changed
+
+* chore: update github actions by @mckenziearts in https://github.com/mckenziearts/laravel-notify/pull/143
+* ⬆️ Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/144
+* ⬆️ Bump alpinejs from 3.15.3 to 3.15.4 in the js-dependencies group by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/145
+* ⬆️ Bump the php-dependencies group with 2 updates by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/146
+* ⬆️ Bump the php-dependencies group with 3 updates by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/147
+* ⬆️ Bump alpinejs from 3.15.4 to 3.15.5 in the js-dependencies group by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/148
+* ⬆️ Bump the php-dependencies group with 2 updates by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/149
+* ⬆️ Bump alpinejs from 3.15.5 to 3.15.8 in the js-dependencies group by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/150
+* ⬆️ Bump rector/rector from 2.3.5 to 2.3.6 in the php-dependencies group by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/151
+* ⬆️ Bump esbuild from 0.27.2 to 0.27.3 in the js-dependencies group by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/152
+* ⬆️ Bump the php-dependencies group with 2 updates by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/153
+* ⬆️ Bump the js-dependencies group with 2 updates by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/154
+* ⬆️ Bump rector/rector from 2.3.6 to 2.3.7 in the php-dependencies group by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/155
+* ⬆️ Bump the js-dependencies group with 2 updates by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/157
+* Bump the php-dependencies group with 2 updates by @dependabot[bot] in https://github.com/mckenziearts/laravel-notify/pull/158
+* chore(deps): add support for Laravel 13 by @mckenziearts in https://github.com/mckenziearts/laravel-notify/pull/159
+
+**Full Changelog**: https://github.com/mckenziearts/laravel-notify/compare/v3.1.1...v3.2.0
+
 ## v3.1.1 - 2025-12-26
 
 ### What's Changed
@@ -69,6 +92,7 @@ If you are using Laravel 7 you can now add this on your master blade
 
 ```html
  <x:notify-messages />
+
 
 
 
